@@ -1,0 +1,75 @@
+# PostgreSQL
+*.sql~
+*.sqlc
+*.sql.gz
+*.sql.bz2
+*.dump
+*.backup
+*.db
+*.sqlite
+*.sqlite3
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+*.log
+logs/
+*.out
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Node modules (if any backend API is added)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build artifacts
+dist/
+build/
+*.tgz
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Database connection files
+*.conn
+connection-config.json
+database-config.json
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# Editor files
+*.sublime-project
+*.sublime-workspace
+
+# PostgreSQL specific
+.postgresql/
+.pgpass
+.psql_history
+
+# Docker
+.dockerignore
+docker-compose.override.yml

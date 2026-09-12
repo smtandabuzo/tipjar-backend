@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: tipjar_db
+      POSTGRES_USER: tipjar_user
+      POSTGRES_PASSWORD: tipjar_password
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+      - ./stored_providers.sql:/docker-entrypoint-initdb.d/02-stored_providers.sql
+      - ./stored_tips.sql:/docker-entrypoint-initdb.d/03-stored_tips.sql
+      - ./functions.sql:/docker-entrypoint-initdb.d/04-functions.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tipjar_user -d tipjar_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: .
+    ports:
+      - "3001:3001"
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: tipjar_db
+      DB_USER: tipjar_user
+      DB_PASSWORD: tipjar_password
+      PORT: 3001
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - backend_uploads:/app/uploads
+
+volumes:
+  postgres_data:
+  backend_uploads:
